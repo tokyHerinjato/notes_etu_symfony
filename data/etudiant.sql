@@ -1,4 +1,4 @@
--- located on notes_etu from PostgreSQL (All right reserved).
+
 
 create database notes_etu;
 
@@ -59,8 +59,6 @@ create table bilanGeneral(
    FOREIGN KEY(idMatiere) REFERENCES matiere(idMatiere)
 );
 
-insert into etudiant
-
 insert into semestre (nom) values ('Semester 1'), ('Semester 2'), ('Semester 3'), ('Semester 4'), ('Semester 5'), ('Semester 6');
 
 insert into matiere (nom, code, idSemestre, credit) values
@@ -84,19 +82,60 @@ INSERT INTO etudiant (nom, prenom, dtn, etu, filiere) VALUES
 ('Rakoto', 'Marie', '1999-11-30', 'ETU124', 'Mathématiques'),
 ('Andry', 'Paul', '2001-03-22', 'ETU125', 'Informatique');
 
--- Insertion de relations étudiant-semestre
+
 INSERT INTO etudiantSemestre (idEtudiant, idSemestre) VALUES
 (1, 1), (1, 2), 
 (2, 1), (2, 2),
 (3, 1), (3, 2);
 
--- Insertion de données dans la table examen
 INSERT INTO examen (daty, idMatiere) VALUES
 ('2024-01-10', 1),
 ('2024-01-15', 2),
 ('2024-01-20', 3);
 
--- Insertion de relations étudiant-examen
+
 INSERT INTO etudiantExamen (idEtudiant, idExamen) VALUES
 (1, 1), (1, 2), 
 (2, 1), (3, 3);
+
+
+INSERT INTO bilanGeneral (idEtudiant, idSemestre, idMatiere, note) VALUES
+
+(1, 1, 1, 15.5),
+(1, 1, 2, 16.0), 
+(1, 1, 3, 14.0), 
+(1, 1, 4, 13.5), 
+
+(1, 1, 1, 19.5),
+(1, 1, 2, 14.0), 
+(1, 1, 3, 12.0), 
+(1, 1, 4, 17.5), 
+
+
+(2, 1, 1, 14.0),
+(2, 1, 2, 12.5),
+(2, 1, 3, 13.0),
+(2, 1, 4, 15.5),
+(2, 1, 1, 14.0),
+(2, 1, 2, 11.5),
+(2, 1, 3, 20.0),
+(2, 1, 4, 16.5),
+
+
+(3, 1, 1, 16.0),
+(3, 1, 2, 17.0),
+(3, 1, 3, 15.5),
+(3, 1, 4, 13.0);
+(3, 1, 1, 06.0),
+(3, 1, 2, 19.0),
+(3, 1, 3, 10.5),
+(3, 1, 4, 19.5);
+
+
+drop table bilanGeneral;
+drop table etudiantExamen;
+drop table examen;
+drop table etudiantSemestre;
+drop table etudiant;
+drop table matiere;
+drop table semestre;
