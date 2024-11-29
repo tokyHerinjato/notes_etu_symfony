@@ -1,13 +1,16 @@
-# Use a PHP 8.2-FPM image with PostgreSQL support
 FROM php:8.2-fpm-alpine
 
 # Set the working directory
 WORKDIR /var/www/html
 
-# Install required PHP extensions
+# Install required PHP extensions and dependencies
 RUN apk add --no-cache --virtual .build-deps \
+    libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql \
     && apk del .build-deps
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy composer.json and composer.lock
 COPY composer.json composer.lock ./
