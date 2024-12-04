@@ -125,7 +125,7 @@ INSERT INTO bilanGeneral (idEtudiant, idSemestre, idMatiere, note) VALUES
 (3, 1, 1, 16.0),
 (3, 1, 2, 17.0),
 (3, 1, 3, 15.5),
-(3, 1, 4, 13.0);
+(3, 1, 4, 13.0),
 (3, 1, 1, 06.0),
 (3, 1, 2, 19.0),
 (3, 1, 3, 10.5),
@@ -139,3 +139,14 @@ drop table etudiantSemestre;
 drop table etudiant;
 drop table matiere;
 drop table semestre;
+
+-- docker exec -it manager_php php -r "
+-- try {
+--     \$pdo = new PDO('pgsql:dpg-ct844caj1k6c73eukadg-a=frankfurt-postgres.render.com;port=5432;dbname=notes_etu_79yd', 'rajoelison', 'IKsODOOo42K6CPSnL43aYNyBZD2A9MWI');
+--     echo 'Connexion réussie';
+-- } catch (Exception \$e) {
+--     echo 'Erreur : ' . \$e->getMessage();
+-- }
+-- "
+
+-- PGPASSWORD=IKsODOOo42K6CPSnL43aYNyBZD2A9MWI psql -h dpg-ct844caj1k6c73eukadg-a.frankfurt-postgres.render.com -U rajoelison notes_etu_79yd

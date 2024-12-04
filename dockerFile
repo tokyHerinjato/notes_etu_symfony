@@ -1,28 +1,31 @@
-FROM php:8.2-fpm-alpine
+# Utiliser une image PHP avec les extensions nécessaires
+FROM php:8.2-fpm
 
-# Set the working directory
+# Installer les dépendances nécessaires
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libicu-dev \
+    libpq-dev \
+    && docker-php-ext-install intl pdo pdo_pgsql
+
+# Installer Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Définir le répertoire de travail
 WORKDIR /var/www/html
 
-# Install required PHP extensions and dependencies
-RUN apk add --no-cache --virtual .build-deps \
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql \
-    && apk del .build-deps
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Copy composer.json and composer.lock
-COPY composer.json composer.lock ./
-
-# Install dependencies
-RUN composer install --no-interaction --prefer-dist --no-dev
-
-# Copy the rest of the application code
+# Copier le code source dans le conteneur
 COPY . .
 
-# Expose the port
+# Installer les dépendances PHP
+RUN composer install --no-dev --optimize-autoloader
+
+# Définir l'utilisateur non root
+RUN chown -R www-data:www-data /var/www/html
+
+# Exposer le port 9000 pour PHP-FPM
 EXPOSE 9000
 
-# Start the PHP-FPM process
+# Lancer PHP-FPM
 CMD ["php-fpm"]
